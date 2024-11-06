@@ -1,0 +1,14 @@
+
+{
+    "compilerOptions": {
+        "target": "es6",
+        "checkJs": true,
+        "noImplicitAny": true // Added to prevent implicit 'any' type issues
+    },
+    "exclude": ["node_modules"],
+    "typeAcquisition": {
+        "include": [
+            "jquery"
+        ]
+    }
+}
