@@ -23,8 +23,8 @@ $(document).ready(function(){$(".loading").fadeOut(2e3,()=>{$("nav").show(1e3),$
                     </ul>
                     <h3 class="font-bold text-2xl capitalize">Links : </h3>
                     <div class="tags-links flex gap-8">
-                        <a href="${a.strSource}" class="bg-green-700 rounded-lg px-4 py-4 capitalize">sourse</a>
-                        <a href="${a.strYoutube}" class="bg-red-800 rounded-lg px-2 py-4 capitalize">youtube</a>
+                        <a href="${a.strSource}" class="bg-green-700 rounded-lg px-4 py-4 capitalize" target="_blank" aria-label="Sourse of ${a.strMeal}">sourse</a>
+                        <a href="${a.strYoutube}" class="bg-red-800 rounded-lg px-2 py-4 capitalize" target="_blank" aria-label="go to kink youtube">youtube</a>
                     </div>
                 </article>
    `;$(".detail-meal div").append(n)}async function searchName(e){let a=await new AllData().searchName(e);for(let t=0;t<a.meals.length;t++){let l=`
