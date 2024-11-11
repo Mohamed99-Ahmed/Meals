@@ -4,11 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Many of items of Meals around the world">
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <!-- fav icons -->
+    <link rel="shortcut icon" href="./imgs/yummy.png" type="image/x-icon">
+    <!-- google font -->
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
-    <!-- css files -->
     <!-- font awesome -->
     <link rel="stylesheet" href="css/all.min.css">
     <!-- main file css -->
@@ -17,11 +20,11 @@
 </head>
 
 <body class="bg-slate-950 font-mono  ">
-         <!-- * start lodaing  -->
+    <!-- * start lodaing  -->
     <div class="loading  h-screen w-screen flex justify-center items-center">
         <span class="loader"></span>
     </div>
-         <!-- * start nav section -->
+    <!-- * start nav section -->
     <nav class="sections z-[9999] relative hidden ">
         <div class="sidebar  fixed flex left-0 top-0 bottom-0 bg-slate-900">
 
@@ -36,12 +39,12 @@
                             <li class="link-contact cursor-pointer"><a class="capitalize ">Contact Us</a></li>
                         </ul>
                     </header>
-                    <footer >
+                    <footer>
                         <div class=" links">
-                            <a href="https://github.com/Mohamed99-Ahmed">
+                            <a href="https://github.com/Mohamed99-Ahmed" target="_blank" rel="noopener noreferrer" aria-label="Visit Mohamed Ahmed's GitHub portfolio">
                                 <i class="fa-brands fa-github"></i>
                             </a>
-                            <a href="https://www.linkedin.com/feed/" class="ml-4">
+                            <a href="https://www.linkedin.com/feed/" target="_blank" rel="noopener noreferrer" aria-label="Connect with Mohamed Ahmed on LinkedIn">
                                 <i class="fa-brands fa-linkedin-in"></i>
                             </a>
                         </div>
@@ -49,22 +52,25 @@
                             Reserved.</p>
                     </footer>
                 </div>
-               
+
             </div>
             <div
                 class="showbar py-8  w-[75px] items-center   bg-white h-[100%]  text-black flex flex-col justify-between">
-                <img class="w-[50px] h-[57px] block" src="imgs/yummy.png" alt="logo img">
+                <a href="#" class="logo">
+                    <img class="w-[50px] h-[57px] block" src="imgs/yummy.png" alt="logo img">
+                </a>
                 <i class="toggle cursor-pointer fa-solid fa-bars-staggered"></i>
                 <i class="toggle cursor-pointer fa-solid fa-xmark hidden"></i>
                 <div class="socials flex flex-col gap-4">
-                    <a href="https://github.com/Mohamed99-Ahmed" target="_blank">
+                    <a href="https://github.com/Mohamed99-Ahmed" target="_blank" rel="noopener noreferrer" aria-label="Visit Mohamed Ahmed's GitHub portfolio">
                         <i class="fa-brands fa-github"></i>
                     </a>
-                    <a href="https://www.linkedin.com/feed/" target="_blank">
+                    <a href="https://www.linkedin.com/feed/" target="_blank" rel="noopener noreferrer" aria-label="Connect with Mohamed Ahmed on LinkedIn">
                         <i class="fa-brands fa-linkedin-in"></i>
                     </a>
                 </div>
             </div>
+        </div>
     </nav>
     <!-- * MAIN SECTIONS -->
     <main class="ml-[75px] my-16 hidden">
@@ -72,7 +78,7 @@
         <section class="home  ">
             <div class="container">
                 <div class="items grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                   
+
                 </div>
 
             </div>
@@ -81,19 +87,20 @@
         <section class="search hidden">
             <div class="container ">
                 <div class="search flex flex-col lg:flex-row gap-8 w-[80%] m-auto mb-16">
-                    <input class="search-name grow p-4 bg-inherit border rounded-full border-slate-500 text-white" type="search"
-                        placeholder="search by name">
-                    <input class="search-letter grow p-4 bg-inherit border rounded-full border-slate-500 text-white" type="search"
-                        placeholder="search by first name">
+                    <input class="search-name grow p-4 bg-inherit border rounded-full border-slate-500 text-white"
+                        type="search" placeholder="search by name">
+                    <input class="search-letter grow p-4 bg-inherit border rounded-full border-slate-500 text-white"
+                        type="search" placeholder="search by first name">
                 </div>
                 <div class="items grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                    <figure class="item rounded-md overflow-hidden relative group/parent cursor-pointer">
-                        <img class="" src="imgs/meal.jpg" alt="meal img">
+                    it wil created by js
+                    <!-- <figure class="item rounded-md overflow-hidden relative group/parent cursor-pointer">
+                        <img loading="lazy" src="imgs/meal.jpg" alt="meal img">
                         <div
                             class="layer flex flex-col justify-center p-8 bg-white text-black bg-opacity-70 group-hover/parent:translate-y-0 transition-all duration-[2s] absolute left-0  right-0 bottom-0 top-0 translate-y-[110%] ">
                             <h1 class="capitalize text-3xl font-mono font-extrabold">corba</h1>
                         </div>
-                    </figure>
+                    </figure> -->
                 </div>
             </div>
         </section>
@@ -101,7 +108,7 @@
         <section class="categories hidden">
             <div class="container">
                 <div class="items grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                   
+
                 </div>
             </div>
         </section>
@@ -137,45 +144,52 @@
         <section class="contact h-screen text-white hidden">
             <div class="container">
                 <h2 class="text-5xl font-bold text-center mb-4 md:mb-0">Send Your Information </h2>
-                <form class="grid justify-items-center grid-cols-1 lg:grid-cols-2 gap-8 h-screen items-start m-auto w-[80%] content-center" aria-required="true">
+                <form
+                    class="grid justify-items-center grid-cols-1 lg:grid-cols-2 gap-8 h-screen items-start m-auto w-[80%] content-center">
                     <div class="flex gap-4 flex-col items-center">
                         <input class="name p-4 rounded-full text-black" type="text" placeholder="Your Name">
-                        <p class="p-4   bg-red-300 text-red-900 hidden text-center">Name  may include _ and - having a length of 3 to 16 characters.</p>
+                        <p class="p-4   bg-red-300 text-red-900 hidden text-center">Name may include _ and - having a
+                            length of 3 to 16 characters.</p>
                     </div>
-                    <div  class="flex gap-4 flex-col items-center">
+                    <div class="flex gap-4 flex-col items-center">
                         <input class="email p-4 rounded-full text-black" type="email" placeholder="Your Email">
                         <p class="p-4  bg-red-300 text-red-900 hidden text-center"> Email not valid *exemple@yyy.zzz</p>
                     </div>
-                    <div  class="flex gap-4 flex-col items-center">
+                    <div class="flex gap-4 flex-col items-center">
                         <input class="age p-4 rounded-full text-black" type="number" placeholder="Your Age">
                         <p class="p-4 rounded-md bg-red-300 text-red-900  hidden text-center"> Enter valid age</p>
                     </div>
-                    <div  class="flex gap-4 flex-col items-center">
+                    <div class="flex gap-4 flex-col items-center">
                         <input class="phone p-4  rounded-full text-black" type="tel" placeholder="YOur phone">
-                        <p class="p-4 rounded-md bg-red-300 text-red-900 hidden  text-center"> Enter valid Phone Number</p>
+                        <p class="p-4 rounded-md bg-red-300 text-red-900 hidden  text-center"> Enter valid Phone Number
+                        </p>
                     </div>
-                    <div  class="flex gap-4 flex-col items-center">
+                    <div class="flex gap-4 flex-col items-center">
                         <input class="password p-4 rounded-full text-black" type="password" placeholder="Password">
-                        <p class="p-4 rounded-md bg-red-300 text-red-900 hidden  text-center"> Minimum eight characters, at least one upper case English letter, one lower case English letter, one number and one special character</p>
+                        <p class="p-4 rounded-md bg-red-300 text-red-900 hidden  text-center"> Minimum eight characters,
+                            at least one upper case English letter, one lower case English letter, one number and one
+                            special character</p>
                     </div>
-                    <div  class="flex gap-4 flex-col items-center">
+                    <div class="flex gap-4 flex-col items-center">
                         <input class="repassword p-4 rounded-full text-black" type="password" placeholder="Repassword">
-                        <p class="p-4 rounded-md bg-red-300 text-red-900 hidden  text-center"> RePassword Must the Same of Password</p>
+                        <p class="p-4 rounded-md bg-red-300 text-red-900 hidden  text-center"> RePassword Must the Same
+                            of Password</p>
                     </div>
-                    <input type="submit" class="submit pointer-events-none border border-slate-500 rounded-full p-4 cursor-pointer hover:bg-red-500 md:justify-self-center self-baseline md:ml-[110%]">
+                    <input type="submit"
+                        class="submit pointer-events-none border border-slate-500 rounded-full p-4 cursor-pointer hover:bg-red-500 md:justify-self-center self-baseline md:ml-[110%]">
                 </form>
             </div>
         </section>
         <!--  * start details of meal -->
-          <section class="detail-meal text-white hidden relative" >
+        <section class="detail-meal text-white hidden relative">
             <i class=" cancel fa-solid fa-xmark absolute right-4 pointer-events-auto cursor-pointer -top-8"></i>
             <div class="container grid grid-cols-1 gap-7 md:grid-cols-8 lg:grid-cols-10 md:items-start ">
-       
+
             </div>
-          </section>
+        </section>
     </main>
     <!-- start jqery library -->
-     <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/jquery-3.7.1.min.js"></script>
     <!-- main file -->
     <script src="js/main.js"> </script>
 </body>

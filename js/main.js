@@ -1,483 +1,62 @@
-// loading function
-$(document).ready(function () {
-  // looding untill the doocument is ready for 2s then callback function for all my syntax
-  $(".loading").fadeOut(2000, () => {
-    // excuete alll function here after loading finish
-    // ... existing code ...
-    $("nav").show(1000);
-    $("main").removeClass("hidden")
-    // start navbar 
-    let hidden = false;
-    // when click in toogle
-    $(".toggle").on("click", () => {
-      // if click in any anchor in nav bar hide the nav list div in nav and chang the icon from cancel to show
-      $(".sidebar li").on("click", () => {
-        $("nav .list").hide(1000);
-        $("nav .fa-xmark").hide();
-        $("nav .fa-bars-staggered").show();
-      })
-      // if the nav not hidden when clck in icon hide the nav list
-      // if the nav  hidden when clck in icon show the nav list
-      if (!hidden) {
-        $("nav .fa-xmark").show()
-        $("nav .fa-bars-staggered").hide();
-        $("nav .list").show(1000);
-        hidden = true;
-      } else {
-        $("nav .fa-xmark").hide();
-        $("nav .fa-bars-staggered").show();
-        $("nav .list").hide(1000);
-        hidden = false;
-      }
-    });
-    async function allDisplay() {
-      // contactus section
-      $(".link-contact").on("click", () => {
-        $("section").addClass("hidden");
-        $(".contact").removeClass("hidden");
-        // start regex of inputs
-        let regName = /^[a-zA-Z0-9_-]{3,15}$/gm;
-        let nameType = false;
-        let regEmail = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/gm;
-        let emailType = false;
-        let regPass = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/gm;
-        let passType = false;
-        let repassType = false;
-        let regPhone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/gm;
-        let phoneType = false;
-        let ageType = false;
-      
-        // function Email regex text
-         (function regex(){
-          //Name
-          $(".name").on("input", (e) => {
-            if (!regName.test(e.target.value)) {
-              $(e.target.nextElementSibling).removeClass("hidden");
-              nameType = false;
-              console.log("true email")
-            } else {
-              $(e.target.nextElementSibling).addClass("hidden");
-              nameType = true;
-            }
-          });
-          // email
-          $(".email").on("input", (e) => {
-            if (!regEmail.test(e.target.value)) {
-              $(e.target.nextElementSibling).removeClass("hidden");
-              emailType = false;
-              console.log("true email")
-            } else {
-              $(e.target.nextElementSibling).addClass("hidden");
-              emailType = true;
-            }
-          });
-          // pasword regex
-          $(".password").on("input", (e) => {
-            if (!regPass.test(e.target.value)) {
-              $(e.target.nextElementSibling).removeClass("hidden");
-              passType = false;
-            } else {
-              $(e.target.nextElementSibling).addClass("hidden");
-              console.log("true pass")
-              passType = true;
-            }
-          })
-          // repassType  
-          $(".repassword").on("input", (e) => {
-            repassType = false;
-            if (e.target.value !== $(".password").val()) {  // Changed .val to .val()
-              $(e.target.nextElementSibling).removeClass("hidden");  // Also jQuery-ified this line
-            }
-            else {
-              repassType = true;
-              $(e.target.nextElementSibling).addClass("hidden");  // And this one
-            }
-          });
-          // phone 
-          $(".phone").on("input", (e) => {
-            if (!regPhone.test(e.target.value)) {
-              $(e.target.nextElementSibling).removeClass("hidden");
-              phoneType = false;
-            } else {
-              $(e.target.nextElementSibling).addClass("hidden");
-              phoneType = true;
-              console.log("true phone")
-            }
-          })
-          // age 
-          $(".age").on("input", (e) => {
-            if( e.target.value <= 0) {
-              e.target.nextElementSibling.classList.remove("hidden");
-              ageType = false;
-            }
-            else{
-              e.target.nextElementSibling.classList.add("hidden");
-              ageType = true;
-              console.log("true age")
-            }
-          });
-          // if all inputs is Right remove pointer event from submit button
-          $(".email, .password, .phone, .age, .repassword, .name").on("input", function() {
-            if(emailType && passType && phoneType && ageType && nameType && repassType){
-              $(".submit").removeClass("pointer-events-none");
-              console.log("valid")
-            } else {
-              $(".submit").addClass("pointer-events-none");
-              console.log("No valid")
-            }
-          });
-        })();
-      })
-      // start Home section
-      await Meals("https://www.themealdb.com/api/json/v1/1/search.php?s=");
-      itemDetais(function cb() {
-        $(".home").removeClass("hidden");
-
-      });
-
-      //when click on any item
-
-      // *start search section
-
-      $(".link-search").on("click", () => {
-        $("section").addClass("hidden");
-        $(".search").removeClass("hidden");
-        // * search by name
-        $(".search-name").on("input", async (e) => {
-          // make the items empty then call func that add 
-          $(".search .items").html(``);
-          let name = e.target.value;
-          await searchName(name);
-          // when data come you can details any data
-          itemDetais(function cb() {
-            $(".search").removeClass("hidden");
-          });
-        });
-
-        // *search by first letter
-        $(".search-letter").on("input", async (e) => {
-          // make the items empty then call func that add 
-          $(".search .items").html(``);
-          let name = e.target.value;
-          await searchName(name);
-          // when data come you can details any data
-          itemDetais(function cb() {
-            $(".search").removeClass("hidden");
-          });
-        });
-      });
-
-
-      // * start category section
-      //  when click in category section appear it  and add hidden class to any section
-      $(".link-category").on("click", async () => {
-        $("section").addClass("hidden");
-        $(".categories").removeClass("hidden");
-        // await untill data receve from allCategories then when click in item category make home section apper 
-        await allCategory();
-        $(".item").on("click", async (e) => {
-          $("section").addClass("hidden");
-          $(".home").removeClass("hidden");
-          $(".home .items").html("")
-          await Meals(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${e.target.parentElement.getAttribute("data-meal")}`)
-          // item Details function work whaen mels git from server
-          itemDetais(() => {
-            $(".home").removeClass("hidden")   //this is call back function
-          });
-        });
-      });
-
-
-      // * start Area section
-      $(".link-area").on("click", async () => {
-        $("section").addClass("hidden");
-        $(".area").removeClass("hidden");
-        // await untill data receve from allArea then when click in item category make home section apper 
-        await allAreas();
-        $(".country").on("click", async (e) => {
-          if ($(e.target).hasClass('country')) {
-            $("section").addClass("hidden");
-            $(".home").removeClass("hidden");
-            $(".home .items").html("")
-            console.log(e.target);
-            await Meals(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${e.target.getAttribute("data-area")}`);
-            // item Details function work whaen mels git from server
-            itemDetais(() => {
-              $(".home").removeClass("hidden")   //this is call back function
-            });
-          }
-
-
-        });
-      });
-
-      // start Ingrediunts section 
-      $(".link-ingredients").on("click", async () => {
-        $("section").addClass("hidden");
-        $(".ingredients").removeClass("hidden");
-        // Fetch ingredients data
-        await allIngredients();
-
-        $(".item").on("click", async (e) => {
-          if ($(e.target).hasClass("item")) {
-            $("section").addClass("hidden");
-            $(".home").removeClass("hidden");
-            $(".home .items").html("")
-            await Meals(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${e.target.getAttribute("data-meal")}`);
-            // item Details function work whaen mels git from server
-            itemDetais(() => {
-              $(".home").removeClass("hidden")   //this is call back function
-            });
-          }
-
-          // item Details function work whaen mels git from server
-        });
-      });
-
-    }
-
-
-
-    allDisplay();
-  })
-});
-
-
-// start class of all api
-class AllData {
-  constructor() {
-  }
-  // Random Meals
-  async Meals(url) {
-    let req = await fetch(url);
-    let res = await req.json();
-    return res;
-  }
-  // Details Meal
-  async detailsMeal(id) {
-    let req = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-    let res = await req.json();
-    return res;
-  }
-  // search By Name
-  async searchName(name) {
-    let req = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`);
-    let res = await req.json();
-    return res;
-  }
-  // search By First letter
-  async searchFletter(letter) {
-    let req = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${letter}`);
-    let res = await req.json();
-    return res;
-  }
-  // Category section
-  async allCategory() {
-    let req = await fetch(`https://www.themealdb.com/api/json/v1/1/categories.php`);
-    let res = await req.json();
-    return res;
-  }
-  // Area section 
-  async allAreas() {
-    let req = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?a=list`);
-    let res = await req.json();
-    return res;
-  }
-  // Area section 
-  async allIngredients() {
-    let req = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?i=list`);
-    let res = await req.json();
-    return res;
-  }
-}
-// !    start create elements
-
-// Random Meals when 
-async function Meals(url) {
-  let obj = new AllData();
-  let data = await obj.Meals(url);
-  for (let i = 0; i < data.meals.length; i++) {
-    let elem = `
-      <figure data-id="${data.meals[i].idMeal}" class="item rounded-md overflow-hidden relative group/parent cursor-pointer">
-                     <img class="" src="${data.meals[i].strMealThumb}" alt="${data.meals[i].strMeal} img">
+$(document).ready(function(){$(".loading").fadeOut(2e3,()=>{$("nav").show(1e3),$("main").removeClass("hidden");let e=!1;async function a(){$(".link-contact").on("click",()=>{$("section").addClass("hidden"),$(".contact").removeClass("hidden");let e=/^[a-zA-Z0-9_-]{3,15}$/gm,a=!1,t=/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/gm,l=!1,s=/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/gm,i=!1,n=!1,r=/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/gm,o=!1,d=!1;$(".name").on("input",t=>{e.test(t.target.value)?($(t.target.nextElementSibling).addClass("hidden"),a=!0):($(t.target.nextElementSibling).removeClass("hidden"),a=!1,console.log("true email"))}),$(".email").on("input",e=>{t.test(e.target.value)?($(e.target.nextElementSibling).addClass("hidden"),l=!0):($(e.target.nextElementSibling).removeClass("hidden"),l=!1,console.log("true email"))}),$(".password").on("input",e=>{s.test(e.target.value)?($(e.target.nextElementSibling).addClass("hidden"),console.log("true pass"),i=!0):($(e.target.nextElementSibling).removeClass("hidden"),i=!1)}),$(".repassword").on("input",e=>{n=!1,e.target.value!==$(".password").val()?$(e.target.nextElementSibling).removeClass("hidden"):(n=!0,$(e.target.nextElementSibling).addClass("hidden"))}),$(".phone").on("input",e=>{r.test(e.target.value)?($(e.target.nextElementSibling).addClass("hidden"),o=!0,console.log("true phone")):($(e.target.nextElementSibling).removeClass("hidden"),o=!1)}),$(".age").on("input",e=>{e.target.value<=0?(e.target.nextElementSibling.classList.remove("hidden"),d=!1):(e.target.nextElementSibling.classList.add("hidden"),d=!0,console.log("true age"))}),$(".email, .password, .phone, .age, .repassword, .name").on("input",function(){l&&i&&o&&d&&a&&n?($(".submit").removeClass("pointer-events-none"),console.log("valid")):($(".submit").addClass("pointer-events-none"),console.log("No valid"))})}),await Meals("https://www.themealdb.com/api/json/v1/1/search.php?s="),$(".logo").on("click",()=>{$("section").addClass("hidden"),$(".home").removeClass("hidden")}),itemDetais(function e(){$(".home").removeClass("hidden")}),$(".link-search").on("click",()=>{$("section").addClass("hidden"),$(".search").removeClass("hidden"),$(".search-name").on("input",async e=>{$(".search .items").html("");await searchName(e.target.value),itemDetais(function e(){$(".search").removeClass("hidden")})}),$(".search-letter").on("input",async e=>{$(".search .items").html("");await searchName(e.target.value),itemDetais(function e(){$(".search").removeClass("hidden")})})}),$(".link-category").on("click",async()=>{$("section").addClass("hidden"),$(".categories").removeClass("hidden"),await allCategory(),$(".item").on("click",async e=>{$("section").addClass("hidden"),$(".home").removeClass("hidden"),$(".home .items").html(""),await Meals(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${e.target.parentElement.getAttribute("data-meal")}`),itemDetais(()=>{$(".home").removeClass("hidden")})})}),$(".link-area").on("click",async()=>{$("section").addClass("hidden"),$(".area").removeClass("hidden"),await allAreas(),$(".country").on("click",async e=>{$(e.target).hasClass("country")&&($("section").addClass("hidden"),$(".home").removeClass("hidden"),$(".home .items").html(""),console.log(e.target),await Meals(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${e.target.getAttribute("data-area")}`),itemDetais(()=>{$(".home").removeClass("hidden")}))})}),$(".link-ingredients").on("click",async()=>{$("section").addClass("hidden"),$(".ingredients").removeClass("hidden"),await allIngredients(),$(".item").on("click",async e=>{$(e.target).hasClass("item")&&($("section").addClass("hidden"),$(".home").removeClass("hidden"),$(".home .items").html(""),await Meals(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${e.target.getAttribute("data-meal")}`),itemDetais(()=>{$(".home").removeClass("hidden")}))})})}$(".toggle").on("click",()=>{$(".sidebar li").on("click",()=>{$("nav .list").hide(1e3),$("nav .fa-xmark").hide(),$("nav .fa-bars-staggered").show()}),e?($("nav .fa-xmark").hide(),$("nav .fa-bars-staggered").show(),$("nav .list").hide(1e3),e=!1):($("nav .fa-xmark").show(),$("nav .fa-bars-staggered").hide(),$("nav .list").show(1e3),e=!0)}),a()})});class AllData{constructor(){}async Meals(e){return await (await fetch(e)).json()}async detailsMeal(e){return await (await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${e}`)).json()}async searchName(e){return await (await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${e}`)).json()}async searchFletter(e){return await (await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${e}`)).json()}async allCategory(){return await (await fetch("https://www.themealdb.com/api/json/v1/1/categories.php")).json()}async allAreas(){return await (await fetch("https://www.themealdb.com/api/json/v1/1/list.php?a=list")).json()}async allIngredients(){return await (await fetch("https://www.themealdb.com/api/json/v1/1/list.php?i=list")).json()}}async function Meals(e){let a=await new AllData().Meals(e);for(let t=0;t<a.meals.length;t++){let l=`
+      <figure data-id="${a.meals[t].idMeal}" class="item rounded-md overflow-hidden relative group/parent cursor-pointer">
+                     <img loading="lazy" src="${a.meals[t].strMealThumb}" alt="${a.meals[t].strMeal} img">
                      <div
                          class="layer flex flex-col justify-center p-8 bg-white text-black bg-opacity-70 group-hover/parent:translate-y-0 transition-all duration-[2s] absolute left-0  right-0 bottom-0 top-0 translate-y-[110%] ">
-                         <h1 class="capitalize text-3xl font-mono font-extrabold">${data.meals[i].strMeal}</h1>
+                         <h1 class="capitalize text-3xl font-mono font-extrabold">${a.meals[t].strMeal}</h1>
                      </div>
-                 </figure> `
-    $(".home .items").append(elem)
-  }
-
-  return data;
-}
-
-
-// Detais of meal when chick in it 
-async function getDetails(id) {
-  let obj = new AllData();
-  let data = await obj.detailsMeal(id);
-  let item = data.meals[0];
-  let ingradiunt = [];
-  let Mesure = []
-  // filter the object  strIngredient method  
-  for (let key in item) {
-    if (key.startsWith('strIngredient')) {
-      if (item[key] != "" && item[key]) {
-        ingradiunt.push(item[key]);
-      }
-    }
-  }
-  //filter the object strMeasure method
-  for (let key in item) {
-    if (key.startsWith('strMeasure')) {
-      if (item[key] !== " " && item[key]) {
-        Mesure.push(item[key]);
-      }
-
-    }
-  }
-  //create element details
-  let element = `
+                 </figure> `;$(".home .items").append(l)}return a}async function getDetails(e){let a=(await new AllData().detailsMeal(e)).meals[0],t=[],l=[];for(let s in a)s.startsWith("strIngredient")&&""!=a[s]&&a[s]&&t.push(a[s]);for(let i in a)i.startsWith("strMeasure")&&" "!==a[i]&&a[i]&&l.push(a[i]);let n=`
             <figure class="md:col-span-3 ">
                     <figure class="item rounded-md overflow-hidden relative group/parent cursor-pointer">
-                        <img class="mb-4" src="${item.strMealThumb}" alt="meal img" >
-                        <h2 class="text-2xl font-bold capitalize"> ${item.strMeal}</h2>
+                        <img loading="lazy"  class="mb-4" src="${a.strMealThumb}" alt="meal img" >
+                        <h2 class="text-2xl font-bold capitalize"> ${a.strMeal}</h2>
                     </figure>
                 </figure>
                 <article class="md:col-span-5 lg:col-span-7 flex flex-col gap-5">
                     <h2 class="font-bold text-2xl capitalize">Instructions</h2>
-                    <p class="detail-meal-disc text-center">${item.strInstructions}</p>
-                    <h3 class="font-bold text-2xl capitalize">Area : <span>${item.strArea}</span></h3>
-                    <h3 class="font-bold text-2xl capitalize">Category  : <span class="text-lg">${item.strCategory}</span></h3>
+                    <p class="detail-meal-disc text-center">${a.strInstructions}</p>
+                    <h3 class="font-bold text-2xl capitalize">Area : <span>${a.strArea}</span></h3>
+                    <h3 class="font-bold text-2xl capitalize">Category  : <span class="text-lg">${a.strCategory}</span></h3>
                     <h3 class="font-bold text-2xl capitalize">Recipes : </h3>
                     <ul class="recipes-list flex gap-4 flex-wrap ">
-                        ${Mesure.map((measure, index) => `<li class="bg-slate-800 px-4 py-4 rounded-full">${ingradiunt[index]}: ${measure}</li>`).join('')}
+                        ${l.map((e,a)=>`<li class="bg-slate-800 px-4 py-4 rounded-full">${t[a]}: ${e}</li>`).join("")}
                     </ul>
                     <h3 class="font-bold text-2xl capitalize">Links : </h3>
                     <div class="tags-links flex gap-8">
-                        <a href="${item.strSource}" class="bg-green-700 rounded-lg px-4 py-4 capitalize">sourse</a>
-                        <a href="${item.strYoutube}" class="bg-red-800 rounded-lg px-2 py-4 capitalize">youtube</a>
+                        <a href="${a.strSource}" class="bg-green-700 rounded-lg px-4 py-4 capitalize">sourse</a>
+                        <a href="${a.strYoutube}" class="bg-red-800 rounded-lg px-2 py-4 capitalize">youtube</a>
                     </div>
                 </article>
-   `;
-  //  add element to detail meal div
-  $(".detail-meal div").append(element);
-}
-
-// start search section function
-//search by name                                            
-async function searchName(name) {
-  //meake object the looping depend of number of items that response from api
-  let obj = new AllData();
-  let data = await obj.searchName(name);
-  for (let i = 0; i < data.meals.length; i++) {
-    let elem = `
-                   <figure data-id="${data.meals[i].idMeal}" class="item rounded-md overflow-hidden relative group/parent cursor-pointer">
-                     <img class="" src="${data.meals[i].strMealThumb}" alt="${data.meals[i].strMeal} img">
+   `;$(".detail-meal div").append(n)}async function searchName(e){let a=await new AllData().searchName(e);for(let t=0;t<a.meals.length;t++){let l=`
+                   <figure data-id="${a.meals[t].idMeal}" class="item rounded-md overflow-hidden relative group/parent cursor-pointer">
+                     <img loading="lazy"  src="${a.meals[t].strMealThumb}" alt="${a.meals[t].strMeal} img">
                      <div
                          class="layer flex flex-col justify-center p-8 bg-white text-black bg-opacity-70 group-hover/parent:translate-y-0 transition-all duration-[2s] absolute left-0  right-0 bottom-0 top-0 translate-y-[110%] ">
-                         <h1 class="capitalize text-3xl font-mono font-extrabold">${data.meals[i].strMeal}</h1>
+                         <h1 class="capitalize text-3xl font-mono font-extrabold">${a.meals[t].strMeal}</h1>
                      </div>
-                 </figure> `
-    //add items in its container
-    $(".search .items").append(elem)
-  }
-
-}
-//search by first letter  create Elements
-async function searchLetter(letter) {
-  //meake object the looping depend of number of items that response from api
-  let obj = new AllData();
-  let data = await obj.searchFletter(letter);
-  for (let i = 0; i < data.meals.length; i++) {
-    let elem = `
-                             <figure data-id="${data.meals[i].idMeal}" class="item rounded-md overflow-hidden relative group/parent cursor-pointer">
-                               <img class="" src="${data.meals[i].strMealThumb}" alt="${data.meals[i].strMeal} img">
+                 </figure> `;$(".search .items").append(l)}}async function searchLetter(e){let a=await new AllData().searchFletter(e);for(let t=0;t<a.meals.length;t++){let l=`
+                             <figure data-id="${a.meals[t].idMeal}" class="item rounded-md overflow-hidden relative group/parent cursor-pointer">
+                               <img loading="lazy"  src="${a.meals[t].strMealThumb}" alt="${a.meals[t].strMeal} img">
                                <div
                                    class="layer flex flex-col justify-center p-8 bg-white text-black bg-opacity-70 group-hover/parent:translate-y-0 transition-all duration-[2s] absolute left-0  right-0 bottom-0 top-0 translate-y-[110%] ">
-                                   <h1 class="capitalize text-3xl font-mono font-extrabold">${data.meals[i].strMeal}</h1>
+                                   <h1 class="capitalize text-3xl font-mono font-extrabold">${a.meals[t].strMeal}</h1>
                                </div>
-                           </figure> `
-    //add items in its container
-    $(".search .items").append(elem)
-  }
-
-}
-
-//category section make items
-async function allCategory() {
-  //meake object the looping depend of number of items that response from api
-  let obj = new AllData();
-  let data = await obj.allCategory();
-  for (let i = 0; i < data.categories.length; i++) {
-    let elem = `
-                              <figure data-meal="${data.categories[i].strCategory}" class="item rounded-md overflow-hidden relative group/parent cursor-pointer">
-                                 <img class="" src="${data.categories[i].strCategoryThumb}" alt="${data.categories[i].strCategory} img">
+                           </figure> `;$(".search .items").append(l)}}async function allCategory(){let e=await new AllData().allCategory();for(let a=0;a<e.categories.length;a++){let t=`
+                              <figure data-meal="${e.categories[a].strCategory}" class="item rounded-md overflow-hidden relative group/parent cursor-pointer">
+                                 <img loading="lazy" src="${e.categories[a].strCategoryThumb}" alt="${e.categories[a].strCategory} img">
                                  <div class="layer py-10 overflow-hidden flex text-ellipsis  flex-col items-center text-center gap-3 justify-start  bg-white text-black bg-opacity-70 group-hover/parent:translate-y-0 transition-all duration-[2s] absolute left-0  right-0 bottom-0 top-0 translate-y-[110%] ">
-                                     <h1 class="capitalize text-3xl font-mono font-extrabold">${data.categories[i].strCategory}</h1>
-                                   <div class="desc">${data.categories[i].strCategoryDescription}</div>
+                                     <h1 class="capitalize text-3xl font-mono font-extrabold">${e.categories[a].strCategory}</h1>
+                                   <div class="desc">${e.categories[a].strCategoryDescription}</div>
                                   </div>
-                              </figure> `
-    //add items in its container
-    $(".categories .items").append(elem)
-  }
-
-}
-
-//allAreas section 
-async function allAreas() {
-  //meake object the looping depend of number of items that response from api
-  let obj = new AllData();
-  let data = await obj.allAreas();
-  for (let i = 0; i < data.meals.length; i++) {
-    let elem = `
-                             <div data-area="${data.meals[i].strArea}" class="country flex flex-col justify-center items-center gap-2">
+                              </figure> `;$(".categories .items").append(t)}}async function allAreas(){let e=await new AllData().allAreas();for(let a=0;a<e.meals.length;a++){let t=`
+                             <div data-area="${e.meals[a].strArea}" class="country flex flex-col justify-center items-center gap-2">
                                      <i class="fa-solid fa-house-flag font-bold  text-5xl"></i>
-                                    <h2 class="capitalize font-bold text-3xl">${data.meals[i].strArea}</h2>
+                                    <h2 class="capitalize font-bold text-3xl">${e.meals[a].strArea}</h2>
                               </div>
- `
-    //add items in its container
-    $(".area .countries").append(elem)
-  }
-
-}
-// ingeredients section
-async function allIngredients() {
-  //meake object the looping depend of number of items that response from api
-  let obj = new AllData();
-  let data = await obj.allIngredients();
-  for (let i = 0; i < data.meals.length; i++) {
-    let disc = data.meals[i].strDescription;
-    if (disc == null) {
-      disc = "This is delcious meal and you can cover it"
-    }
-    let elem = `
-                    <div data-meal="${data.meals[i].strIngredient}" class=" item text-center h-[300px]  border-slate-500 rounded-2xl cursor-pointer overflow-hidden border p-4 flex flex-col justify-center items-center gap-2">
+ `;$(".area .countries").append(t)}}async function allIngredients(){let e=await new AllData().allIngredients();for(let a=0;a<e.meals.length;a++){let t=e.meals[a].strDescription;null==t&&(t="This is delcious meal and you can cover it");let l=`
+                    <div data-meal="${e.meals[a].strIngredient}" class=" item text-center h-[300px]  border-slate-500 rounded-2xl cursor-pointer overflow-hidden border p-4 flex flex-col justify-center items-center gap-2">
                         <i class="fa-solid fa-drumstick-bite font-bold  text-5xl"></i>
-                        <h2 class="capitalize font-bold text-3xl">${data.meals[i].strIngredient}</h2>
-                        <p class="disc-ingred indent-4  max-h-[100px] overflow-hidden  text-ellipsis">${disc}</p>
+                        <h2 class="capitalize font-bold text-3xl">${e.meals[a].strIngredient}</h2>
+                        <p class="disc-ingred indent-4  max-h-[100px] overflow-hidden  text-ellipsis">${t}</p>
                     </div>
-   `
-    //add items in its container
-    $(".ingredients .items").append(elem);
-  }
-}
-allIngredients()
-
-function itemDetais(cb) {
-  $(".item").on("click", (e) => {
-    let id = e.target.parentElement.getAttribute("data-id");
-    getDetails(id);
-    // delete any item from detail meal section
-    // Should be:
-    $(".detail-meal div").html('');
-    $("section").addClass("hidden");
-    $(".detail-meal").removeClass("hidden");
-    $(".detail-meal .cancel").on("click", () => {
-      $(".detail-meal").addClass("hidden");
-      //this is call back function depend of any section you want to appear
-      cb();
-    })
-  });
-
-}
+   `;$(".ingredients .items").append(l)}}function itemDetais(e){$(".item").on("click",a=>{getDetails(a.target.parentElement.getAttribute("data-id")),$(".detail-meal div").html(""),$("section").addClass("hidden"),$(".detail-meal").removeClass("hidden"),$(".detail-meal .cancel").on("click",()=>{$(".detail-meal").addClass("hidden"),e()})})}allIngredients();
