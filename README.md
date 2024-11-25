@@ -1,4 +1,4 @@
-# DevFolio Portfolio  Website
+# Meals Website
 
 ## Live Demo
 [View the live demo here](https://mohamed99-ahmed.github.io/Meals/)
